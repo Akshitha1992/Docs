@@ -61,3 +61,67 @@ node {
 
 
 
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@gopal1409 
+ricardoandre97
+/
+jenkins-resources
+30
+203
+679
+Code
+Issues
+1
+Pull requests
+3
+Actions
+Projects
+Wiki
+Security
+Insights
+jenkins-resources/jenkins/pipeline/Jenkinsfile
+@ricardoandre97
+ricardoandre97 Adds jenkins resources
+Latest commit 960c961 on Apr 27, 2020
+ History
+ 1 contributor
+Executable File  51 lines (41 sloc)  1022 Bytes
+  
+pipeline {
+
+    agent any
+    
+    environment {
+        PASS = credentials('registry-pass') 
+    }
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh '''
+                    ./jenkins/build/mvn.sh mvn -B -DskipTests clean package
+                    ./jenkins/build/build.sh
+                '''
+            }
+
+            post {
+                success {
+                   archiveArtifacts artifacts: 'java-app/target/*.jar', fingerprint: true
+                }
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh './jenkins/test/mvn.sh
+
+
+
