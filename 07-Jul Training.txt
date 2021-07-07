@@ -5,32 +5,45 @@ https://github.com/gopal1409/hclcommand/blob/main/Pipelinescript1
 https://azure.microsoft.com/en-in/free/
 
 
-steps {
+pipeline {
+    agent any
+    stages{
+        stage('Build') {
+           steps {
                 echo 'Building'
                 sh '''
                 echo "by the way i can do multiple works"
                 ls -lah
                 '''
-                
-            }
-
-
-stage('test'){
-            steps {
-                echo 'testing...'
-                retry(3){
-                    sh 'i am not going to work'
-                }
-            }
-From Trainer - Gopal to Everyone:  07:17 PM
-stage('Build') {
-            steps {
-                echo 'Building'
-                sh '''
-                echo "by the way i can do multiple works"
-                ls -lah
-                '''
-                timeout(time: 3, unit: 'SECONDS'){
+                timeout(time:3, unit:'SECONDS'){
                     sh 'sleep 5'
                 }
+            }
+        }
+    
+        stage('test'){
+            steps {
+                echo 'testing...'
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'deploying'
+            }
+        }
+}
+}
+
+
+
+
+https://github.com/gopal1409/springapp.git
+
+
+node {
+    stage('SCM Checkout'){
+        git 'https://github.com/gopal1409/springapp.git'
+    }
+}
+
 
