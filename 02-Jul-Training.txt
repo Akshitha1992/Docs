@@ -1,0 +1,39 @@
+yum install java
+9  yum install jre
+   10  yum install wget -y
+   11  wget -O /etc/yum.repos.d/jenkins.repo     https://pkg.jenkins.io/redhat-stable/jenkins.repo
+   12  rpm --import https://pkg.jenkins.io/redhat-stable/jenkins.io.key
+   13  yum install jenkins java-11-openjdk-devel
+       yum install java-1.8.0-openjdk-devel
+   14  systemctl daemon-reload
+
+   16  systemctl start jenkins
+   17  systemctl enable jenkins
+   18  systemctl status jenkins
+
+
+
+ 29  git config --global user.name "Akshitha"
+   30  git config --global user.email "akshitha.gollapinni@gmail.com"
+   23  cd helloworld/
+   24  vi HelloWorld.java
+   25  git init
+    28  git add .
+    34  git commit -m "Helloworld App"
+    31  git remote add origin https://github.com/Akshitha1992/Helloworld.git
+   32  git push -u origin master
+
+
+
+https://github.com/gopal1409/hclcommand/blob/main/HelloWorldapp%20with%20git
+// Your First Program
+
+class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!"); 
+    }
+}
+https://www.programiz.com/java-programming/hello-world
+From Trainer - Gopal to Everyone:  08:03 PM
+javac HelloWorld.java
+java HelloWorld

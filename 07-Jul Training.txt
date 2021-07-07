@@ -1,0 +1,6 @@
+Pipeline --> Pipeline Script
+
+https://github.com/gopal1409/hclcommand/blob/main/Pipelinescript1
+
+https://azure.microsoft.com/en-in/free/
+

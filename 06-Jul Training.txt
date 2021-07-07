@@ -1,0 +1,45 @@
+55  yum install maven
+   56  mvn --version
+
+
+https://github.com/jenkins-docs/simple-java-maven-app.git
+
+https://www.udemy.com/course/spring-boot-microservices-cqrs-saga-axon-framework/
+
+cd /var/lib/jenkins/workspace/maven-project/
+
+
+https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html
+
+Build --> Invoke top-level Maven Targets
+localMaven
+-B -DskipTests clean package
+
+localMaven
+test
+
+
+Build --> Execute Shell
+
+echo "*****************"
+echo "Deploying Jar FILE"
+echo "*******************"
+java -jar /var/lib/jenkins/workspace/maven-project/target/my-app-1.0-SNAPSHOT.jar
+
+
+https://github.com/gopal1409/hclcommand/blob/main/How%20to%20install%20maven
+
+
+Post Build Action --> Publish JUnit test result report
+target/surefire-reports/*.xml
+
+Post Build Action --> Archive the artifact
+Files to archive: target/*.jar
+Advance
+Click options: 2,4,5
+
+Save & Apply
+
+
+
+

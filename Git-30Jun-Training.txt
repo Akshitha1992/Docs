@@ -1,0 +1,106 @@
+From Manish TeamLease to Everyone:  06:09 PM
+Lms Link:- https://els.teamleaseedtech.com/
+Ok
+From Trainer - Gopal to Everyone:  06:37 PM
+https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html
+SBSGQ$92567
+From Sandhadi Ganesh Kumar to Everyone:  06:38 PM
+Linux ip-172-31-9-65.us-east-2.compute.internal 3.10.0-1062.12.1.el7.x86_64 #1 SMP Tue Feb 4 23:02:59 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+From Trainer - Gopal to Everyone:  06:41 PM
+18.116.60.229
+https://github.com/gopal1409/hclcommand/blob/main/gitcommand
+sudo -i
+From Trainer - Gopal to Everyone:  06:51 PM
+10  mkdir project
+   11  cd project/
+   12  touch DS_Store
+   13  touch calcy.py
+   14  touch auth
+   15  git status
+19  git init
+   20  git status
+18  git status
+   19  git init
+   20  git status
+   21  history
+   22  ls
+   23  ls -la
+   24  cd .git
+   25  ls
+   26  cd ..
+   27  ls -la
+   28  git status
+   29  rm -rf .git
+   30  git status
+   31  git init
+   32  git status
+'
+From Trainer - Gopal to Everyone:  07:01 PM
+38  git config --global user.email "gopal1409@gmail.com"
+   39  git commit -m "intial commit"
+35  git add calcy.py
+   36  git commit -m "my first commit"
+   37  git config --global user.name "gopal"
+
+   40  git log
+From ramya_g to Everyone:  07:18 PM
+Gopal,
+From Trainer - Gopal to Everyone:  07:19 PM
+45  vi calcy.py
+   46  git status
+   47  git add calcy.py
+   48  git commit -m "second commit"
+   49  git log
+   50  vi calcy.py
+   51  git status
+   52  git diff
+From ramya_g to Everyone:  07:19 PM
+How will it show if we delete a line
+git diff
+From Trainer - Gopal to Everyone:  07:28 PM
+57  git add calcy.py
+   58  git status
+   59  history
+   60  git commit -m "third change"
+   61  git log
+   62  history
+From ramya_g to Everyone:  07:29 PM
+Got it Thanks
+From Trainer - Gopal to Everyone:  07:34 PM
+57  git add calcy.py
+   58  git status
+   59  history
+   60  git commit -m "third change"
+   61  git log
+From Trainer - Gopal to Everyone:  07:46 PM
+git push -u origin master
+From Trainer - Gopal to Everyone:  07:53 PM
+75  vi calcy.py
+   76  git status
+   77  git diff
+   78  git checkout calcy.py
+   79  git diff
+From Trainer - Gopal to Everyone:  08:11 PM
+89  git status
+   90  git add .
+   91  git status
+   92  git reset
+   93  git status
+95  git add .
+   96  git status
+   97  git reset auth
+   98  git status
+100  git reset
+  101  git status
+  102  vi .gitignore
+  103  git status
+[root@ip-172-31-2-126 project]# cat .gitignore
+DS_Store
+auth
+*.txt
+*.tmp
+https://git-scm.com/
+From Trainer - Gopal to Everyone:  08:19 PM
+https://aws.amazon.com/free/?all-free-tier.sort-by=item.additionalFields.SortRank&all-free-tier.sort-order=asc&awsf.Free%20Tier%20Types=*all&awsf.Free%20Tier%20Categories=*all
+https://azure.microsoft.com/en-in/free/
+
