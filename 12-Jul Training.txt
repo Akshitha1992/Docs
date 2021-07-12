@@ -1,0 +1,85 @@
+223  docker run -d -p 3306:3306 --name db -e MYSQL_RANDOM_ROOT_PASSWORD=true mysql
+  224  docker ps
+  225  docker exec -it db bash
+  226  docker logs db
+  227  docker exec -it db bash
+
+mysql -u root -p
+mysql> show databases;
+
+
+
+223  docker run -d --name db -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql:8.0.25
+  224  docker ps
+  225  docker container inspect 59f5
+  226  docker volume ls
+  227  docker volume inspect mysql-db
+  228  cd /var/lib/docker/volumes/mysql-db/_data
+
+docker stop 6ef
+235  docker rm 6ef
+  236  docker ps
+  237  docker volume ls
+  238  docker run -d --name db -e MYSQL_ALLOW_EMPTY_PASSWORD=true -v mysql-db:/var/lib/mysql mysql:8.0
+  239  docker ps
+  240  docker container inspect db
+
+
+cd /root
+mkdir javaapp
+cd javaapp
+vi HelloWorld.java
+
+cat HelloWorld.java
+// Your First Program
+
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+
+javac HelloWorld.java
+
+java HelloWorld
+
+vi manifest.txt
+
+cat manifest.txt
+Manifest-Version: 1.0
+Created-By: Me
+Main-Class: HelloWorld
+
+jar cfm HelloWorld.jar manifest.txt HelloWorld.class
+
+java -jar HelloWorld.jar
+
+
+vi dockerfile
+
+cat dockerfile --> ensure there is space after CMD
+FROM java:8
+WORKDIR /
+ADD HelloWorld.jar HelloWorld.jar
+EXPOSE 8080
+CMD java -jar HelloWorld.jar
+
+
+docker build -t myapp .
+
+docker images
+
+docker run myapp
+
+
+301  git clone https://github.com/gopal1409/springappr.git
+
+308  docker build -t springapp .
+
+docker run -d -p 80:8080 springapp
+
+
+
+
+
+
