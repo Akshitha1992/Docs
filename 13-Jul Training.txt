@@ -1,0 +1,57 @@
+https://hub.docker.com/
+
+Username : akshitha1992
+Password : REDhat92!@
+
+cd springappr
+docker login
+Username/password
+
+docker images
+
+docker tag 11b57d3ebff6 akshitha1992/springapp:v1(11b57d3ebff6 is the image ID)
+
+docker push akshitha1992/springapp:v1
+
+sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+sudo ln -s /usr/local/bin/docker-compose /usr/bin/docker-compose
+
+docker-compose
+
+https://github.com/gopal1409/hclcommand/blob/main/docker-compose.yaml
+mkdir project
+cd project
+vi docker-compose.yaml
+Press Esc i
+copy the content from github
+Pres Esc :wq
+docker-compose up
+docker-compose up -d
+docker ps 
+docker network ls
+docker volume ls
+
+docker network ls
+
+docker network inspect project_default
+
+docker ps
+
+docker exec -it efbd bash (efbd is the mysql container id)
+
+mysql -u root -p
+
+Password: somewordpress
+
+show databases;
+
+use wordpress;
+
+show tables;
+
+select * from wp_users;
+
+
+
+
