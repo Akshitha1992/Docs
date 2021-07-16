@@ -1,0 +1,92 @@
+ How to do the deployment :-
+
+cd HCLK8smanifest/
+git pull
+kubectl apply -f deploy.yml
+kubectl get deploy
+kubectl get pod
+
+kubectl get deploy
+kubectl get rs
+kubectl get pod
+
+Kubernete describe pod replicaset and deployment :-
+
+kubectl describe pod nginx-deployment (nginx-deployment is the pod name)
+
+kubectl taint nodes --all node-role.kubernetes.io/master-
+
+kubectl describe deploy nginx-deployment
+
+kubectl get pod
+
+[root@ip-172-31-14-87 HCLK8smanifest]# kubectl get pod
+NAME                                READY   STATUS    RESTARTS   AGE
+my-second-pod                       1/1     Running   1          24h
+nginx-deployment-66b6c48dd5-7dpmd   1/1     Running   0          40m
+nginx-deployment-66b6c48dd5-w8rg5   1/1     Running   0          40m
+nginx-deployment-66b6c48dd5-zfkkh   1/1     Running   0          40m
+[root@ip-172-31-14-87 HCLK8smanifest]#
+
+
+kubectl describe pod nginx-deployment-66b6c48dd5-7dpmd (-66b6c48dd5-7dpmd is the pod name)
+
+kubectl get rs
+
+[root@ip-172-31-14-87 HCLK8smanifest]# kubectl get rs
+NAME                          DESIRED   CURRENT   READY   AGE
+nginx-deployment-66b6c48dd5   3         3         3       40m
+[root@ip-172-31-14-87 HCLK8smanifest]#
+
+kubectl describe pod nginx-deployment-66b6c48dd5
+
+
+exposing with internal load balancer :-
+
+kubectl get deploy
+kubectl expose deploy nginx-deployment --type=NodePort --port=80 --name=nginx-service
+kubectl get svc
+kubectl describe svc nginx-service
+kubectl get pod -o wide
+
+How to update your images:-
+
+Type-1: kubectl get deploy 
+kubectl edit deploy nginx-deployment
+
+Type-2: vi deploy.yml  --> add the details in this file
+
+Type-3: kubectl set image deployment nginx-deployment nginx=piuma/phpsysinfo --record
+
+kubectl get deploy
+
+kubectl get rs
+
+kubectl get pod
+
+kubectl get pod -o wide
+
+kubectl describe rs nginx-deployment-747757dc89 (747757dc89 is the pod name)
+
+kubectl rollout status deployment nginx-deployment
+
+kubectl describe deploy
+
+kubectl set image deployment nginx-deployment nginx=1.0.12 --record
+
+kubectl rollout status deployment nginx-deployment
+
+kubectl get rs
+
+kubectl get pod
+
+kubectl rollout history deploy nginx-deployment
+
+kubectl rollout undo deploy nginx-deployment
+
+kubectl get pod
+
+kubectl get rs
+
+
+
