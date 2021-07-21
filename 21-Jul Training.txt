@@ -1,0 +1,43 @@
+kubectl get all
+
+cd HCLK8smanifest/
+git pull
+kubectl apply -f frontend.yml
+kubectl get deploy
+kubectl describe deploy usermgmt-webapp
+kubectl get pod
+kubectl logs usermgmt-webapp-8854c8b4f-pghjf  (usermgmt-webapp-8854c8b4f-pghjf is the pod name)
+
+kubectl apply -f frontendservice.yml
+kubectl get svc
+
+
+kubectl get pod
+kubectl exec -it mysql-6975d66dfb-42fjw -- /bin/bash
+mysql -u root -p  --> (get the password by running the command : kubectl describe deploy mysql)
+show databases;
+use webappdb;
+show tables;
+select * from user;
+exit
+exit
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+kubectl get pod --all-namespaces
+git pull
+kubectl apply -f serviceaccount.yml
+kubectl apply -f rbacdashbaord.yml
+kubectl edit svc kubernetes-dashboard --namespace=kubernetes-dashboard  -->  change this type: NodePort
+kubectl get svc --all-namespaces
+
+https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md
+
+https://github.com/gopal1409/HCLK8smanifest.git
+
+https://github.com/gopal1409/KubernetesDocker
+
+
+
+
+
+
