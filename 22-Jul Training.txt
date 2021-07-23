@@ -1,0 +1,317 @@
+yum install epel-release
+yum install ansible
+
+
+wget https://get.helm.sh/helm-v3.6.3-linux-amd64.tar.gz
+tar -zxvf helm-v3.6.3-linux-amd64.tar.gz
+cd linux-amd64/
+mv helm /usr/bin
+helm version
+
+[root@ip-172-31-14-87 linux-amd64]# helm version
+version.BuildInfo{Version:"v3.6.3", GitCommit:"d506314abfb5d21419df8c7e7e68012379db2354", GitTreeState:"clean", GoVersion:"go1.16.5"}
+[root@ip-172-31-14-87 linux-amd64]#
+
+
+
+yum install tree
+
+cd /root
+mkdir charts
+cd charts/
+mkdir my-nginx
+cd my-nginx/
+touch Chart.yaml
+mkdir templates
+
+https://helm.sh/docs/topics/charts/
+
+Add the below in Charts.yaml file
+
+[root@ip-172-31-14-87 my-nginx]# more Chart.yaml
+apiVersion: v1
+name: my-nginx
+version: 0.2.0
+appVersion: 1.0
+description: my custom nginx chart
+[root@ip-172-31-14-87 my-nginx]#
+
+
+tree
+
+kubectl create deploy my-nginx --image nginx --dry-run -o yaml > ./templates/deployment.yaml  --> This will do a dry run and push the o/p to ./templates/deployment.yaml
+
+[root@ip-172-31-14-87 my-nginx]# kubectl create deploy my-nginx --image nginx --dry-run -o yaml > ./templates/deployment.yaml
+W0723 13:49:54.541573   20718 helpers.go:557] --dry-run is deprecated and can be replaced with --dry-run=client.
+[root@ip-172-31-14-87 my-nginx]#
+
+
+[root@ip-172-31-14-87 my-nginx]# tree
+.
+├── Chart.yaml
+├── templates
+│   ├── deployment.yaml
+│   └── service.yaml
+└── values.yaml
+
+1 directory, 4 files
+[root@ip-172-31-14-87 my-nginx]# 
+
+
+helm install my-nginx . --> For Installing
+
+helm uninstall my-nginx . --> For Uninstalling
+
+kubectl get all 
+
+kubectl expose deploy my-nginx --port 80 --dry-run -o yaml > ./templates/service.yaml
+
+tree
+
+[root@ip-172-31-14-87 my-nginx]# cat Chart.yaml
+apiVersion: v1
+name: my-nginx
+version: 0.2.0
+appVersion: 1.0
+description: my custom nginx chart
+[root@ip-172-31-14-87 my-nginx]#
+
+
+helm upgrade my-nginx .
+
+[root@ip-172-31-14-87 my-nginx]# helm upgrade my-nginx .
+Release "my-nginx" has been upgraded. Happy Helming!
+NAME: my-nginx
+LAST DEPLOYED: Fri Jul 23 13:55:25 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+[root@ip-172-31-14-87 my-nginx]#
+
+
+[root@ip-172-31-14-87 my-nginx]# helm list
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+my-nginx        default         2               2021-07-23 13:55:25.998611086 +0000 UTC deployed        my-nginx-0.2.0  1
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm rollback my-nginx 1
+Rollback was a success! Happy Helming!
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm list
+NAME            NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+my-nginx        default         3               2021-07-23 13:56:31.089896533 +0000 UTC deployed        my-nginx-0.1.0  1
+[root@ip-172-31-14-87 my-nginx]#
+
+
+touch values.yaml
+
+[root@ip-172-31-14-87 my-nginx]# cat values.yaml
+replicaCount: 1
+[root@ip-172-31-14-87 my-nginx]#
+
+vi templates/deployment.yaml
+
+[root@ip-172-31-14-87 my-nginx]# cat templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: my-nginx
+  name: my-nginx
+spec:
+  replicas: {{ .Values.replicaCount }}  --> replace 1 in this line
+  selector:
+    matchLabels:
+      app: my-nginx
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: my-nginx
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        resources: {}
+status: {}
+[root@ip-172-31-14-87 my-nginx]#
+
+
+[root@ip-172-31-14-87 my-nginx]# helm inspect values .
+replicaCount: 1
+
+[root@ip-172-31-14-87 my-nginx]#
+
+
+helm inspect values .
+helm upgrade my-nginx . --set replicaCount=2
+cat values.yaml
+helm upgrade my-nginx . --set replicaCount=4
+
+
+[root@ip-172-31-14-87 my-nginx]# helm inspect values .
+replicaCount: 1
+
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm upgrade my-nginx . --set replicaCount=2
+Release "my-nginx" has been upgraded. Happy Helming!
+NAME: my-nginx
+LAST DEPLOYED: Fri Jul 23 14:02:27 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 4
+TEST SUITE: None
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# cat values.yaml
+replicaCount: 1
+
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm upgrade my-nginx . --set replicaCount=4
+Release "my-nginx" has been upgraded. Happy Helming!
+NAME: my-nginx
+LAST DEPLOYED: Fri Jul 23 14:02:49 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 5
+TEST SUITE: None
+[root@ip-172-31-14-87 my-nginx]#
+
+vi values.yaml
+
+[root@ip-172-31-14-87 my-nginx]# vi values.yaml
+[root@ip-172-31-14-87 my-nginx]# cat values.yaml
+replicaCount: 1
+service:
+  type: NodePort
+[root@ip-172-31-14-87 my-nginx]#
+
+
+vi templates/service.yaml
+
+[root@ip-172-31-14-87 my-nginx]# cat templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    app: my-nginx
+    app.kubernetes.io/managed-by: Helm
+  name: my-nginx
+spec:
+  type: {{.Values.service.type}}  --> Added this new line
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: my-nginx
+status:
+  loadBalancer: {}
+[root@ip-172-31-14-87 my-nginx]#
+
+
+helm upgrade my-nginx . --set service.type=LoadBalancer
+helm upgrade my-nginx . --set service.type=NodePort
+
+[root@ip-172-31-14-87 my-nginx]# helm upgrade my-nginx . --set service.type=LoadBalancer
+Release "my-nginx" has been upgraded. Happy Helming!
+NAME: my-nginx
+LAST DEPLOYED: Fri Jul 23 14:09:23 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 6
+TEST SUITE: None
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm upgrade my-nginx . --set service.type=NodePort
+Release "my-nginx" has been upgraded. Happy Helming!
+NAME: my-nginx
+LAST DEPLOYED: Fri Jul 23 14:09:51 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 7
+TEST SUITE: None
+[root@ip-172-31-14-87 my-nginx]#
+
+
+https://artifacthub.io/
+
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install monitoring prometheus-community/kube-prometheus-stack
+kubectl --namespace default get pods -l "release=monitoring"
+kubectl edit svc monitoring-kube-prometheus-prometheus
+
+[root@ip-172-31-14-87 my-nginx]# helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+"prometheus-community" has been added to your repositories
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm repo update
+Hang tight while we grab the latest from your chart repositories...
+...Successfully got an update from the "prometheus-community" chart repository
+Update Complete. ⎈Happy Helming!⎈
+[root@ip-172-31-14-87 my-nginx]#
+
+[root@ip-172-31-14-87 my-nginx]# helm install monitoring prometheus-community/kube-prometheus-stack
+W0723 14:14:36.277278    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:36.280692    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:36.289067    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:36.290791    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:36.294755    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:36.296150    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:36.304732    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:37.702899    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:38.377405    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.158029    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.250395    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.253163    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.259446    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.259610    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.259731    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.270763    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:45.270908    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:47.073476    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:47.930956    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+W0723 14:14:55.324407    5950 warnings.go:70] policy/v1beta1 PodSecurityPolicy is deprecated in v1.21+, unavailable in v1.25+
+NAME: monitoring
+LAST DEPLOYED: Fri Jul 23 14:14:33 2021
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+NOTES:
+kube-prometheus-stack has been installed. Check its status by running:
+  kubectl --namespace default get pods -l "release=monitoring"
+
+Visit https://github.com/prometheus-operator/kube-prometheus for instructions on how to create & configure Alertmanager and Prometheus instances using the Operator.
+[root@ip-172-31-14-87 my-nginx]#
+
+
+
+[root@ip-172-31-14-87 my-nginx]# kubectl --namespace default get pods -l "release=monitoring"
+NAME                                                  READY   STATUS    RESTARTS   AGE
+monitoring-kube-prometheus-operator-f8b68cf47-957f9   1/1     Running   0          44s
+monitoring-prometheus-node-exporter-b7znq             1/1     Running   0          44s
+[root@ip-172-31-14-87 my-nginx]#
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
